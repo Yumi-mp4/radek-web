@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery | My Static Site</title>
+    <title>Galeria | Radosław Ciecholewski</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,20 +30,74 @@
         </section>
 
         <div class="gallery-grid">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 1" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 2" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 3" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 4" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 5" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 6" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 7" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 8" class="gallery-image">
-            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 9" class="gallery-image">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 1" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 2" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 3" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 4" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 5" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 6" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 7" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 8" class="gallery-image" tabindex="0">
+            <img src="https://placehold.co/600x400/EEE/31343C" alt="Gallery image 9" class="gallery-image" tabindex="0">
         </div>
     </main>
+
+    <div class="image-modal" id="imageModal" aria-hidden="true">
+        <div class="image-modal__content" role="dialog" aria-modal="true" aria-label="Image preview">
+            <button class="image-modal__close" type="button" aria-label="Close image">&times;</button>
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
 
     <footer class="footer">
         <p>&copy; 2026 Franciszek Graban.</p>
     </footer>
+
+    <script>
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeButton = document.querySelector('.image-modal__close');
+        const galleryImages = document.querySelectorAll('.gallery-image');
+
+        const closeModal = () => {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+        };
+
+        const openModal = (image) => {
+            modalImage.src = image.src;
+            modalImage.alt = image.alt;
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+        };
+
+        galleryImages.forEach((image) => {
+            image.addEventListener('click', () => openModal(image));
+
+            image.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openModal(image);
+                }
+            });
+        });
+
+        closeButton.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {  // Click on background, not content
+                closeModal();
+            }
+        });
+
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
